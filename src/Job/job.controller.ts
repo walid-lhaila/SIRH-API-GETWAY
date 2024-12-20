@@ -1,10 +1,9 @@
 import {
-  Body,
   Controller,
+  Get,
   Inject,
   Post,
   Req,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 
@@ -21,5 +20,16 @@ export class JobController {
     return this.jobService
       .send({ cmd: 'createJobOffers' }, { token, payload })
       .toPromise();
+  }
+
+  @Get('getAll')
+  async getAllJobOffers() {
+    return this.jobService.send({ cmd: 'getAll' }, {}).toPromise();
+  }
+
+  @Get('getByUser')
+  async getAllJobOffersByUser(@Req() req: Request) {
+    const token = req.headers['authorization'];
+    return this.jobService.send({ cmd: 'getAllByUser' }, { token }).toPromise();
   }
 }
