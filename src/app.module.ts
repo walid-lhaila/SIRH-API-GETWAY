@@ -1,21 +1,11 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ClientsModule, Transport } from '@nestjs/microservices';
+import { AuthModule } from './Auth/auth.module';
+import { JobModule } from './Job/job.module';
 
 @Module({
-  imports: [
-    ClientsModule.register([
-      {
-        name: 'KeyCloak-Service',
-        transport: Transport.TCP,
-        options: {
-          host: '127.0.0.1',
-          port: 3000,
-        },
-      },
-    ])
-  ],
+  imports: [AuthModule, JobModule],
   controllers: [AppController],
   providers: [AppService],
 })
