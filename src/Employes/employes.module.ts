@@ -1,21 +1,25 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { AuthController } from './auth.controller';
+import { EmployesController } from './employes.controller';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
     ClientsModule.register([
       {
-        name: 'KeyCloak-Service',
+        name: 'Employes-service',
         transport: Transport.TCP,
         options: {
           host: '127.0.0.1',
-          port: 3000,
+          port: 6000,
         },
       },
     ]),
+    MulterModule.register({
+      dest: './uploads',
+    }),
   ],
-  controllers: [AuthController],
+  controllers: [EmployesController],
   providers: [],
 })
-export class AuthModule {}
+export class EmployesModule {}
